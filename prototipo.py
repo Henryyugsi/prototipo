@@ -9,7 +9,10 @@ class DataBase:
         
         selfconnection= pymysql.connect(host="localhost",user="root",password="",db="pollos")
         selfcursor=selfconnection.cursor()
-        sql="INSERT INTO datos(temperatura,humedad,co,amoniaco,luminosidad) VALUES('{}','{}',{},'{}','{}')".format(temperatura,humedad,co,amoniaco,luminosidad)
+        today = datetime.date.today()
+        present = datetime.datetime.now()
+        hora= present.hour
+        sql="INSERT INTO datos(temperatura,humedad,co,amoniaco,luminosidad,fecha,hora) VALUES('{}','{}',{},'{}','{}','{}','{}')".format(temperatura,humedad,co,amoniaco,luminosidad,today,hora)
         try:
             selfcursor.execute(sql)
             selfconnection.commit()
@@ -40,13 +43,6 @@ def on_message(client,userdata,message):
       print(lista3[3])
       print(lista3[4])
       database.insertDatos(lista3[0],lista3[1],lista3[2],lista3[3],lista3[4])
-
-#Día actual
-today = datetime.date.today()
-print(today)
-present = datetime.datetime.now()
-hora= present.hour
-print(hora)
 
 
 client=mqtt.Client(client_id="Henry",clean_session=False)
